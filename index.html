@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Converter Physical Drop Box</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div>
+            <h1>📦 File Converter Physical Drop Box</h1>
+            <p>Cloud Computing Dashboard</p>
+        </div>
+
+        <div class="cloud-status">
+            <span class="online-dot"></span>
+            Cloud Connected
+        </div>
+    </header>
+
+    <main>
+
+        <!-- STATUS CARDS -->
+        <section class="status-grid">
+
+            <div class="status-card">
+                <div class="card-icon">🔌</div>
+                <div>
+                    <h3>Device Status</h3>
+                    <p id="deviceStatus">ONLINE</p>
+                </div>
+                <span class="led green" id="deviceLed"></span>
+            </div>
+
+            <div class="status-card">
+                <div class="card-icon">☁️</div>
+                <div>
+                    <h3>AWS S3</h3>
+                    <p id="s3Status">CONNECTED</p>
+                </div>
+                <span class="led green"></span>
+            </div>
+
+            <div class="status-card">
+                <div class="card-icon">⚙️</div>
+                <div>
+                    <h3>Converter</h3>
+                    <p id="converterStatus">READY</p>
+                </div>
+                <span class="led green" id="converterLed"></span>
+            </div>
+
+        </section>
+
+
+        <!-- MAIN UPLOAD AREA -->
+        <section class="dashboard-grid">
+
+            <div class="upload-panel">
+
+                <h2>📥 Physical File Drop</h2>
+                <p class="subtitle">
+                    Press the physical button or simulate it using the button below.
+                </p>
+
+                <div class="drop-box">
+
+                    <div class="big-button-area">
+                        <div class="physical-button" id="physicalButton">
+                            <span>DROP</span>
+                            <small>FILE</small>
+                        </div>
+                    </div>
+
+                    <p id="buttonText">
+                        Press the button to start file upload
+                    </p>
+
+                    <button class="simulate-btn" onclick="simulateUpload()">
+                        Simulate Physical Drop
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- CURRENT FILE -->
+            <div class="file-panel">
+
+                <h2>📄 Current File</h2>
+
+                <div class="file-info">
+
+                    <div class="file-icon">
+                        📄
+                    </div>
+
+                    <div>
+                        <h3 id="fileName">No file selected</h3>
+                        <p id="fileSize">---</p>
+                    </div>
+
+                </div>
+
+                <div class="conversion-box">
+
+                    <div>
+                        <span>Input</span>
+                        <strong id="inputFormat">---</strong>
+                    </div>
+
+                    <div class="arrow">→</div>
+
+                    <div>
+                        <span>Output</span>
+                        <strong id="outputFormat">---</strong>
+                    </div>
+
+                </div>
+
+                <p class="status-label">Conversion Status</p>
+
+                <div class="conversion-status" id="conversionStatus">
+                    Waiting for file...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROGRESS -->
+        <section class="progress-panel">
+
+            <div class="progress-header">
+                <h2>📤 Upload & Conversion Progress</h2>
+                <span id="progressText">0%</span>
+            </div>
+
+            <div class="progress-bar">
+                <div id="progressFill"></div>
+            </div>
+
+            <p id="progressMessage">
+                System ready. Waiting for physical drop...
+            </p>
+
+        </section>
+
+
+        <!-- S3 INFORMATION -->
+        <section class="s3-panel">
+
+            <div class="section-title">
+                <div>
+                    <h2>☁️ AWS S3 Storage</h2>
+                    <p>Cloud storage information</p>
+                </div>
+
+                <span class="bucket-status">
+                    ● Connected
+                </span>
+            </div>
+
+            <div class="storage-grid">
+
+                <div class="storage-card">
+                    <span>🗂️</span>
+                    <h3 id="uploadedCount">24</h3>
+                    <p>Files Uploaded</p>
+                </div>
+
+                <div class="storage-card">
+                    <span>✅</span>
+                    <h3 id="convertedCount">21</h3>
+                    <p>Converted</p>
+                </div>
+
+                <div class="storage-card">
+                    <span>❌</span>
+                    <h3 id="failedCount">3</h3>
+                    <p>Failed</p>
+                </div>
+
+                <div class="storage-card">
+                    <span>💾</span>
+                    <h3>48.6 MB</h3>
+                    <p>Storage Used</p>
+                </div>
+
+            </div>
+
+            <div class="bucket-name">
+                <strong>Bucket:</strong>
+                file-converter-bucket
+            </div>
+
+        </section>
+
+
+        <!-- RECENT FILES -->
+        <section class="recent-panel">
+
+            <div class="section-title">
+                <div>
+                    <h2>📋 Recent Files</h2>
+                    <p>Latest uploaded and converted files</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Size</th>
+                            <th>Conversion</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="fileTable">
+
+                        <tr>
+                            <td>📄 sample.pdf</td>
+                            <td>2.4 MB</td>
+                            <td>PDF → TXT</td>
+                            <td>
+                                <span class="status complete">
+                                    ✓ Complete
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>📄 report.docx</td>
+                            <td>1.8 MB</td>
+                            <td>DOCX → PDF</td>
+                            <td>
+                                <span class="status complete">
+                                    ✓ Complete
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>🖼️ image.png</td>
+                            <td>3.1 MB</td>
+                            <td>PNG → JPG</td>
+                            <td>
+                                <span class="status processing">
+                                    ⟳ Processing
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>File Converter Physical Drop Box | Cloud Computing Project</p>
+        <p>AWS S3 • ESP32 • File Conversion</p>
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
